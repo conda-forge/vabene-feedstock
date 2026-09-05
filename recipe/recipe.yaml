@@ -1,0 +1,45 @@
+schema_version: 1
+
+context:
+  name: vabene
+  version: "0.0.5"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/vabene-${{ version }}.tar.gz
+  sha256: 2bb2dc3bcaa5b5b6f9cdbd6b6fdd88e0433e8e58b161ee1b54025f264b744e17
+
+build:
+  number: 3
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - setuptools
+  run:
+    - python >=${{ python_min }}
+
+tests:
+  - python:
+      imports:
+        - vabene
+      pip_check: true
+      python_version:
+        - ${{ python_min }}
+        - "*"
+
+about:
+  summary: A Python library for automatically making valid molecular graphs.
+  license: MIT
+  license_file: license
+  homepage: https://github.com/lukasturcani/vabene
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
